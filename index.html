@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LvlUp365 Testing Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0f1117;
+            --card: #1a1d27;
+            --surface: #22252f;
+            --border: rgba(255, 255, 255, 0.07);
+            --text: #e4e6ec;
+            --text2: #8e94a4;
+            --muted: #5a6070;
+            --red: #e74c5e;
+            --green: #34d399;
+            --amber: #fbbf24;
+            --blue: #60a5fa;
+            --r: 12px;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 32px 20px 60px;
+            line-height: 1.7;
+        }
+
+        .wrap {
+            max-width: 920px;
+            margin: auto;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .header .sub {
+            color: var(--text2);
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        .meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+            font-size: 0.82rem;
+            color: var(--muted);
+        }
+
+        .meta span {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 6px 16px;
+            border-radius: 20px;
+        }
+
+        /* Progress */
+        .progress {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 20px 24px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .progress .stats {
+            display: flex;
+            gap: 24px;
+        }
+
+        .progress .stat-num {
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .progress .stat-label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--muted);
+        }
+
+        .green {
+            color: var(--green);
+        }
+
+        .red {
+            color: var(--red);
+        }
+
+        .amber {
+            color: var(--amber);
+        }
+
+        .bar {
+            flex: 1;
+            min-width: 200px;
+            height: 8px;
+            background: var(--surface);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .bar-done {
+            background: var(--green);
+        }
+
+        .bar-open {
+            background: var(--red);
+        }
+
+        /* Section */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 36px 0 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .section-label .badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 16px;
+            margin-left: auto;
+        }
+
+        .badge-red {
+            background: rgba(231, 76, 94, 0.12);
+            color: var(--red);
+        }
+
+        .badge-green {
+            background: rgba(52, 211, 153, 0.12);
+            color: var(--green);
+        }
+
+        /* Issue Card */
+        .issue {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .issue-head {
+            padding: 16px 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .issue-id {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--red);
+            background: rgba(231, 76, 94, 0.12);
+            padding: 3px 10px;
+            border-radius: 6px;
+        }
+
+        .issue-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            flex: 1;
+        }
+
+        .sev {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 16px;
+        }
+
+        .sev-high {
+            background: rgba(231, 76, 94, 0.12);
+            color: #f87171;
+        }
+
+        .sev-med {
+            background: rgba(251, 191, 36, 0.12);
+            color: var(--amber);
+        }
+
+        .issue-body {
+            padding: 18px 22px;
+        }
+
+        .issue-body p {
+            font-size: 0.88rem;
+            color: var(--text2);
+            margin-bottom: 10px;
+        }
+
+        .error-box {
+            display: inline-block;
+            background: rgba(231, 76, 94, 0.08);
+            color: #f87171;
+            border: 1px solid rgba(231, 76, 94, 0.18);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            margin: 4px 0 10px;
+        }
+
+        .issue-body .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--muted);
+            font-weight: 700;
+            margin: 14px 0 6px;
+        }
+
+        /* Steps */
+        .steps {
+            list-style: none;
+            padding: 0;
+            counter-reset: s;
+        }
+
+        .steps li {
+            counter-increment: s;
+            padding-left: 30px;
+            position: relative;
+            font-size: 0.85rem;
+            color: var(--text2);
+            margin-bottom: 6px;
+        }
+
+        .steps li::before {
+            content: counter(s);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 20px;
+            height: 20px;
+            background: var(--surface);
+            border-radius: 50%;
+            font-size: 0.65rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+        }
+
+        /* Screenshot */
+        .screenshot {
+            margin-top: 14px;
+        }
+
+        .screenshot img {
+            width: 200px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .screenshot img:hover {
+            transform: scale(1.03);
+        }
+
+        .screenshot .cap {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        /* Done Card */
+        .done {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            margin-bottom: 10px;
+            padding: 16px 22px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .done .check {
+            width: 28px;
+            height: 28px;
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--green);
+            flex-shrink: 0;
+        }
+
+        .done h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .done p {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        /* Table */
+        .table-wrap {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            overflow: hidden;
+            margin-top: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--surface);
+            padding: 12px 18px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--muted);
+            text-align: left;
+            font-weight: 700;
+        }
+
+        td {
+            padding: 14px 18px;
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text2);
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 12px;
+            border-radius: 16px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .pill-done {
+            background: rgba(52, 211, 153, 0.1);
+            color: var(--green);
+        }
+
+        .pill-open {
+            background: rgba(231, 76, 94, 0.1);
+            color: var(--red);
+        }
+
+        .pill-inv {
+            background: rgba(251, 191, 36, 0.1);
+            color: var(--amber);
+        }
+
+        .pill::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Lightbox */
+        .lb {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+
+        .lb.on {
+            display: flex;
+        }
+
+        .lb img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 16px 12px 40px;
+            }
+
+            .header h1 {
+                font-size: 1.4rem;
+            }
+
+            .screenshot img {
+                width: 160px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="lb" id="lb" onclick="this.classList.remove('on')">
+        <img id="lb-img" src="" alt="">
+    </div>
+
+    <div class="wrap">
+
+        <header class="header">
+            <h1>LvlUp365</h1>
+            <div class="sub">QA Testing Report — Latest Build (LvlUp3)</div>
+            <div class="meta">
+                <span>📅 February 26, 2026</span>
+                <span>📱 Android</span>
+            </div>
+        </header>
+
+        <!-- Progress -->
+        <div class="progress">
+            <div class="stats">
+                <div>
+                    <div class="stat-num green">4</div>
+                    <div class="stat-label">Resolved</div>
+                </div>
+                <div>
+                    <div class="stat-num red">2</div>
+                    <div class="stat-label">Open</div>
+                </div>
+                <div>
+                    <div class="stat-num amber">1</div>
+                    <div class="stat-label">Investigating</div>
+                </div>
+            </div>
+            <div class="bar">
+                <div class="bar-done" style="width:50%"></div>
+                <div class="bar-open" style="width:50%"></div>
+            </div>
+        </div>
+
+        <!-- ===== OPEN ISSUES ===== -->
+        <div class="section-label">
+            ⚠️ Open Issues
+            <span class="badge badge-red">4 Items</span>
+        </div>
+
+        <!-- BUG-001 -->
+        <div class="issue">
+            <div class="issue-head">
+                <span class="issue-id">BUG-001</span>
+                <span class="issue-title">RangeError After Archive & User Re-Raise</span>
+                <span class="sev sev-high">High</span>
+            </div>
+            <div class="issue-body">
+                <p>After performing an <strong>Archive</strong> action and obtaining an access-right token, attempting
+                    to <strong>re-raise</strong> the user causes a fatal data error on the dashboard.</p>
+                <div class="error-box">RangeError (length): Invalid value: Valid value range is empty: 0</div>
+
+                <div class="label">Steps to Reproduce</div>
+                <ol class="steps">
+                    <li>Navigate to user management and select a user account.</li>
+                    <li>Perform the <strong>Archive</strong> action — system returns an access-right token.</li>
+                    <li>Perform <strong>Re-raise</strong> on the same archived user.</li>
+                    <li>Observe the RangeError on the dashboard.</li>
+                </ol>
+
+                <div class="screenshot">
+                    <img src="screenshots/bug001_rangeerror.png" alt="RangeError screenshot" onclick="openLb(this)">
+                    <div class="cap">Error displayed after re-raising archived user</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BUG-002 -->
+        <div class="issue">
+            <div class="issue-head">
+                <span class="issue-id">BUG-002</span>
+                <span class="issue-title">Concurrent Login — Force Logout on Device 1</span>
+                <span class="sev sev-med">Medium</span>
+            </div>
+            <div class="issue-body">
+                <p>When a user logs in from <strong>Device #2</strong> while still authenticated on <strong>Device
+                        #1</strong>, the system allows the second login and automatically force-logs-out Device #1.</p>
+                <p>Needs confirmation: is single-session enforcement the intended design, or should concurrent sessions
+                    be allowed?</p>
+
+                <div class="label">Steps to Reproduce</div>
+                <ol class="steps">
+                    <li>Log in with User ID <strong>10453</strong> on Mobile #1.</li>
+                    <li>Without logging out, log in with the same credentials on Mobile #2.</li>
+                    <li>Mobile #2 authenticates successfully.</li>
+                    <li>Mobile #1 is force-logged out.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- BUG-003 -->
+        <div class="issue">
+            <div class="issue-head">
+                <span class="issue-id">BUG-003</span>
+                <span class="issue-title">ServerException on Clock-Out from Custom Location</span>
+                <span class="sev sev-high">High</span>
+            </div>
+            <div class="issue-body">
+                <p>After setting a <strong>work location</strong> to a home address and successfully clocking in,
+                    attempting to <strong>Clock-in/Clock-out</strong> from the same location throws a server-side error.</p>
+                <div class="error-box">Instance of 'ServerException'</div>
+
+                <div class="label">Steps to Reproduce</div>
+                <ol class="steps">
+                    <li>Set work location to <strong>"Home Address"</strong> via app settings.</li>
+                    <li>Clock-In at the custom location.</li>
+                    <li>Attempt to <strong>Clock-Out</strong> from the same location.</li>
+                    <li>Observe the ServerException error.</li>
+                </ol>
+
+                <div class="screenshot">
+                    <img src="screenshots/bug003_server_exception.png" alt="ServerException screenshot"
+                        onclick="openLb(this)">
+                    <div class="cap">ServerException when clocking out from home location</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BUG-004
+        <div class="issue">
+            <div class="issue-head">
+                <span class="issue-id">BUG-004</span>
+                <span class="issue-title">Send Location from Mobile — Unreliable</span>
+                <span class="sev sev-med">Medium</span>
+            </div>
+            <div class="issue-body">
+                <p>Sending real-time GPS coordinates from certain mobile devices is unreliable. Location data either
+                    fails to transmit or sends stale coordinates during clock-in/out. Currently <strong>under
+                        investigation</strong>.</p>
+            </div>
+        </div> -->
+
+        <!-- ===== RESOLVED ===== -->
+        <div class="section-label">
+            ✅ Resolved & Verified
+            <span class="badge badge-green">4 Items</span>
+        </div>
+
+        <div class="done">
+            <div class="check">✓</div>
+            <div>
+                <h4>Approvers Module</h4>
+                <p>Full approval workflow implemented and verified.</p>
+            </div>
+        </div>
+        <div class="done">
+            <div class="check">✓</div>
+            <div>
+                <h4>Splash Screen Compatibility</h4>
+                <p>Rendering issues resolved across tested Android models.</p>
+            </div>
+        </div>
+        <div class="done">
+            <div class="check">✓</div>
+            <div>
+                <h4>Device ID & Firebase Token</h4>
+                <p>Device identification and push-notification token capture working correctly.</p>
+            </div>
+        </div>
+        <div class="done">
+            <div class="check">✓</div>
+            <div>
+                <h4>Force Logout for Inactive Users</h4>
+                <p>Single-session enforcement active — verified with multi-device testing.</p>
+            </div>
+        </div>
+
+        <!-- ===== SUMMARY TABLE ===== -->
+        <div class="section-label">📋 Summary</div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Item</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Approvers Module</td>
+                        <td><span class="pill pill-done">Done</span></td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Splash Screen</td>
+                        <td><span class="pill pill-done">Done</span></td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Send Location from Mobile</td>
+                        <td><span class="pill pill-inv">Investigating</span></td>
+                        <td>Medium</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Device ID & Firebase Token</td>
+                        <td><span class="pill pill-done">Done</span></td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Force Logout</td>
+                        <td><span class="pill pill-done">Done</span></td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>RangeError — Archive & Re-Raise</td>
+                        <td><span class="pill pill-open">Open</span></td>
+                        <td>High</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Multi-Device Concurrent Login</td>
+                        <td><span class="pill pill-open">Open</span></td>
+                        <td>Medium</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>ServerException — Clock-Out</td>
+                        <td><span class="pill pill-open">Open</span></td>
+                        <td>High</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <span>Prepared by <strong>yousif frrag</strong> | Lvl Up365</span>
+            <span>February 26, 2026</span>
+        </footer>
+
+    </div>
+
+    <script>
+        function openLb(el) {
+            document.getElementById('lb-img').src = el.src;
+            document.getElementById('lb').classList.add('on');
+        }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('lb').classList.remove('on'); });
+    </script>
+
+</body>
+
+</html>
