@@ -509,20 +509,20 @@
             </div>
             <div class="issue-body">
                 <p>After performing an <strong>Archive</strong> action and obtaining an access-right token, attempting
-                    to <strong>re-raise</strong> the user causes a fatal data error on the dashboard.</p>
+                    to <strong>Re-Sync</strong> the user causes a fatal data error on the dashboard.</p>
                 <div class="error-box">RangeError (length): Invalid value: Valid value range is empty: 0</div>
 
                 <div class="label">Steps to Reproduce</div>
                 <ol class="steps">
                     <li>Navigate to user management and select a user account.</li>
                     <li>Perform the <strong>Archive</strong> action — system returns an access-right token.</li>
-                    <li>Perform <strong>Re-raise</strong> on the same archived user.</li>
+                    <li>Perform <strong>Re-Sync</strong> on the same archived user.</li>
                     <li>Observe the RangeError on the dashboard.</li>
                 </ol>
 
                 <div class="screenshot">
                     <img src="bug001_rangeerror.png" alt="RangeError screenshot" onclick="openLb(this)">
-                    <div class="cap">Error displayed after re-raising archived user</div>
+                    <div class="cap">Error displayed after Re-Sync archived user</div>
                 </div>
             </div>
         </div>
@@ -710,3 +710,4 @@
 </body>
 
 </html>
+
